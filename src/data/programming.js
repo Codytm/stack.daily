@@ -1,0 +1,10 @@
+export const PROGRAMMING = [
+  { q: "What does Big O notation describe?", opts: ["Code readability", "An algorithm's memory address", "Growth of resource use as input size increases", "Number of bugs"], correct: 2, exp: "Big O describes how time or space scales as input size grows, ignoring constants." },
+  { q: "A stack overflow error usually indicates what?", opts: ["Too much recursion or a deep call stack", "A syntax error", "A network timeout", "A missing import"], correct: 0, exp: "Each call frame uses stack space; unbounded or unterminated recursion exhausts it." },
+  { q: "What is a closure in programming?", opts: ["A loop that never ends", "A function that retains access to variables from its enclosing scope", "A type of database index", "A way to close file handles"], correct: 1, exp: "Closures let inner functions remember variables from the scope they were created in." },
+  { q: "What does idempotent mean for an operation?", opts: ["It runs faster each time", "Performing it multiple times has the same effect as once", "It cannot be undone", "It requires user input"], correct: 1, exp: "PUT requests are a classic example — sending the same one twice leaves the same result." },
+  { q: "Which data structure uses LIFO ordering?", opts: ["Queue", "Stack", "Linked list", "Hash map"], correct: 1, exp: "Last in, first out — think of a stack of plates." },
+  { q: "What's the time complexity of binary search on a sorted array?", opts: ["O(n)", "O(n log n)", "O(log n)", "O(1)"], correct: 2, exp: "Each comparison halves the remaining search space." },
+  { q: "What does DRY stand for in software engineering?", opts: ["Do Repeat Yourself", "Don't Repeat Yourself", "Data Retrieval Yield", "Dynamic Runtime Yielding"], correct: 1, exp: "DRY pushes toward a single source of truth for any piece of logic or knowledge." },
+  { q: "What is a race condition?", opts: ["A performance benchmark", "A bug where the outcome depends on unpredictable timing of concurrent operations", "A type of infinite loop", "A memory leak"], correct: 1, exp: "Two operations touching shared state without coordination can interleave unpredictably." },
+];

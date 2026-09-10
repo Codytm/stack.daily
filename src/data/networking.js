@@ -1,0 +1,10 @@
+export const NETWORKING = [
+  { q: "Which OSI layer is responsible for routing packets between different networks?", opts: ["Data Link", "Network", "Transport", "Session"], correct: 1, exp: "The Network layer (Layer 3) handles logical addressing and routing — this is where IP lives." },
+  { q: "What does DNS primarily do?", opts: ["Encrypts traffic between hosts", "Translates domain names into IP addresses", "Assigns IP addresses to devices", "Compresses network packets"], correct: 1, exp: "DNS is the internet's phone book, resolving human-readable names to IP addresses." },
+  { q: "Which port does HTTPS use by default?", opts: ["21", "80", "443", "8080"], correct: 2, exp: "Port 443 is the default for HTTPS; port 80 is plain HTTP." },
+  { q: "In TCP, what does the three-way handshake establish?", opts: ["Encryption keys", "A reliable connection between client and server", "DNS resolution", "Packet compression"], correct: 1, exp: "SYN, SYN-ACK, ACK — the handshake synchronizes sequence numbers before data flows." },
+  { q: "What is the purpose of a subnet mask?", opts: ["To encrypt IP packets", "To divide an IP address into network and host portions", "To assign MAC addresses", "To route DNS queries"], correct: 1, exp: "The mask tells a device which bits identify the network and which identify the host." },
+  { q: "Which protocol favors speed over guaranteed delivery or ordering?", opts: ["TCP", "UDP", "FTP", "HTTP"], correct: 1, exp: "UDP skips handshakes and retransmission, trading reliability for lower latency." },
+  { q: "What does a reverse proxy typically do?", opts: ["Hides client identity from servers", "Sits in front of servers and forwards client requests to them", "Converts IP addresses to MAC addresses", "Encrypts DNS lookups"], correct: 1, exp: "Reverse proxies sit in front of backend servers, handling load balancing, caching, and TLS termination." },
+  { q: "Which HTTP status code means the resource was not found?", opts: ["200", "301", "404", "500"], correct: 2, exp: "404 Not Found — the classic. 500 means server error, 301 means moved permanently." },
+];
