@@ -84,9 +84,9 @@ export default function ResultScreen({ answers, stats, puzzle, buildShareText })
             fontSize: 13,
             padding: "10px 16px",
             borderRadius: 6,
-            border: "1px solid var(--ink)",
-            background: copied ? "var(--green-bg)" : "var(--ink)",
-            color: copied ? "var(--green-text)" : "#FFFFFF",
+            border: "1px solid var(--primary)",
+            background: copied ? "var(--green-bg)" : "var(--primary)",
+            color: copied ? "var(--green-text)" : "var(--primary-fg)",
             cursor: "pointer",
           }}
         >
@@ -102,8 +102,8 @@ export default function ResultScreen({ answers, stats, puzzle, buildShareText })
             fontSize: 13,
             padding: "10px 16px",
             borderRadius: 6,
-            border: "1px solid var(--ink)",
-            background: discordCopied ? "var(--green-bg)" : "#FFFFFF",
+            border: "1px solid var(--primary)",
+            background: discordCopied ? "var(--green-bg)" : "transparent",
             color: discordCopied ? "var(--green-text)" : "var(--ink)",
             cursor: "pointer",
           }}

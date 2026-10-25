@@ -119,8 +119,8 @@ export function getDailyPuzzle(now = new Date()) {
     type: "code",
     id: `code:${codeIdx}`,
     category: "Predict the output",
-    color: "#5F5E5A",
-    bg: "#F1EFE8",
+    color: "#c4c2b8",
+    bg: "#2a2a26",
     ...CODE_OUTPUTS[codeIdx],
   });
 

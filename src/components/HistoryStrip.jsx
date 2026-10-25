@@ -30,7 +30,7 @@ export default function HistoryStrip({ stats, todayKey }) {
                 height: 22,
                 borderRadius: 3,
                 background: bg,
-                outline: isToday ? "2px solid var(--ink)" : "none",
+                outline: isToday ? "2px solid var(--primary)" : "none",
                 outlineOffset: 1,
               }}
             />

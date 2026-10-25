@@ -58,8 +58,8 @@ export default function QuestionCard({
             fontSize: 13,
             padding: "10px",
             borderRadius: 6,
-            border: "1px solid var(--ink)",
-            background: "#FFFFFF",
+            border: "1px solid var(--primary)",
+            background: "transparent",
             color: "var(--ink)",
             cursor: "pointer",
           }}

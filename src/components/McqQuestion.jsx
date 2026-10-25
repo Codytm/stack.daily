@@ -6,8 +6,8 @@ export default function McqQuestion({ question, locked, selected, onPick }) {
       <p style={{ fontSize: 16, lineHeight: 1.5, margin: "0 0 1rem" }}>{question.q}</p>
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
         {question.opts.map((opt, i) => {
-          let bg = "#FFFFFF";
-          let border = "#D7D6CE";
+          let bg = "var(--bg-input)";
+          let border = "var(--border)";
           if (locked) {
             if (i === question.correct) {
               bg = "var(--green-bg)";

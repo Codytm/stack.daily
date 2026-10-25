@@ -2,36 +2,55 @@
   --mono: "JetBrains Mono", "Menlo", "Consolas", monospace;
   --sans: -apple-system, "Segoe UI", Roboto, sans-serif;
 
-  --bg-page: #f6f7f5;
-  --bg-card: #ffffff;
-  --ink: #1a1d1e;
-  --muted: #6b7280;
-  --faint: #9a9990;
-  --border: #e5e5e0;
+  color-scheme: dark;
 
-  --green: #2d5f3e;
-  --green-bg: #eaf3de;
-  --green-border: #639922;
-  --green-text: #3b6d11;
+  --bg-page: #121411;
+  --bg-card: #1b1d1a;
+  --bg-input: #141613;
+  --ink: #e8e6df;
+  --muted: #9a9b94;
+  --faint: #6e6f68;
+  --border: #2e322c;
 
-  --red-bg: #fcebeb;
-  --red-border: #e24b4a;
-  --red-text: #a32d2d;
+  --primary: #e8e6df;
+  --primary-fg: #121411;
 
-  --flame: #b8622b;
+  --green: #7dce8a;
+  --green-bg: #1a3320;
+  --green-border: #4d8a4a;
+  --green-text: #9ed4a0;
+
+  --red-bg: #3a1c1c;
+  --red-border: #c45a58;
+  --red-text: #f0a8a6;
+
+  --flame: #e08a4a;
 }
 
 * {
   box-sizing: border-box;
 }
 
+html,
+body {
+  background: var(--bg-page);
+}
+
 body {
   margin: 0;
-  background: var(--bg-page);
   color: var(--ink);
   font-family: var(--sans);
 }
 
 button {
   font-family: inherit;
+  color: inherit;
+}
+
+textarea {
+  color: inherit;
+}
+
+textarea::placeholder {
+  color: var(--faint);
 }
