@@ -10,12 +10,10 @@ export default function Header({ puzzleNumber, streak }) {
           <div style={{ fontFamily: "var(--mono)", fontSize: 12, color: "var(--muted)" }}>#{puzzleNumber}</div>
         </div>
       </div>
-      {streak > 0 && (
-        <div style={{ display: "flex", alignItems: "center", gap: 4, fontFamily: "var(--mono)", fontSize: 13, color: "var(--flame)" }}>
-          <Flame size={16} fill="var(--flame)" color="var(--flame)" />
-          {streak}
-        </div>
-      )}
+      <div style={{ display: "flex", alignItems: "center", gap: 4, fontFamily: "var(--mono)", fontSize: 13, color: streak > 0 ? "var(--flame)" : "var(--muted)" }}>
+        <Flame size={16} fill={streak > 0 ? "var(--flame)" : "none"} color={streak > 0 ? "var(--flame)" : "var(--muted)"} />
+        {streak}
+      </div>
     </div>
   );
 }

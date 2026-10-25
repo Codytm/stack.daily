@@ -4,6 +4,13 @@ A Wordle-style daily trivia game for CS/dev topics. Five questions a day:
 four multiple choice pulled from rotating categories (networking, programming,
 cloud, devops, databases), plus a "predict the output" Python challenge.
 
+Everyone who plays on the same calendar day gets the same puzzle. After a
+question is used, it stays on cooldown for 14 days (or until every other
+question in that bank has been used, if the bank is smaller than 14).
+
+Progress, streaks, and a 14-day history live in this browser's `localStorage`.
+Copy the Discord-formatted result into a channel to share your score and streak.
+
 ## Run it
 
 ```
@@ -18,30 +25,12 @@ Then open the local URL Vite prints (usually http://localhost:5173).
 ```
 src/
   data/           question banks, one file per category
-    networking.js
-    programming.js
-    cloud.js
-    devops.js
-    databases.js
-    codeOutputs.js   Python "predict the output" questions
-    categories.js    combines the category files into one list
-
   lib/
-    puzzle.js       picks today's 5 questions deterministically from the date
-    storage.js      localStorage wrapper for progress + streaks
-
+    puzzle.js     daily pick + question cooldowns
+    storage.js    localStorage for progress, streaks, history
+    streak.js     live streak (zeros out after a missed day)
   components/
-    Header.jsx
-    ProgressBar.jsx
-    CategoryTag.jsx
-    McqQuestion.jsx     the multiple-choice question UI
-    CodeQuestion.jsx    the "predict the output" UI
-    QuestionCard.jsx    wraps either question type + explanation + next button
-    ResultScreen.jsx    score, share button, streak
-
-  App.jsx    wires state + storage to the components above
-  main.jsx   React entry point
-  index.css  design tokens / global styles
+  App.jsx
 ```
 
 ## Adding questions
@@ -52,29 +41,16 @@ Open the relevant file in `src/data/` and add an object to the array:
 { q: "...", opts: ["A", "B", "C", "D"], correct: 1, exp: "why B is right" }
 ```
 
-`correct` is the index into `opts`. No other file needs to change — the
-puzzle generator in `lib/puzzle.js` automatically rotates through whatever
-is in each array based on the date.
+`correct` is the index into `opts`. Prefer appending so existing indices stay
+stable. Bigger banks mean a longer real cooldown (`COOLDOWN_DAYS` in
+`lib/puzzle.js`, currently 14, capped at `bank.length - 1`).
 
-To add a whole new category: copy the shape of an existing file in
-`src/data/`, then add it to the `CATEGORIES` array in `src/data/categories.js`.
+## Sharing and streaks
 
-## Adding a new language to the code-output question
+Streaks are per-browser. Missing a day resets the live streak to 0. There is
+no Discord bot or shared leaderboard in this static app (browser calls to
+Discord webhooks are blocked by CORS). Use **copy for discord** and paste.
 
-Right now `codeOutputs.js` is Python only. To add JavaScript (or others):
-
-1. Create `src/data/codeOutputsJS.js` with the same shape as `codeOutputs.js`.
-2. In `lib/puzzle.js`, pick which bank to use for the day (e.g. alternate by
-   `daysSince % 2`) and tag the question with a `lang` field.
-3. In `CodeQuestion.jsx`, use `question.lang` to switch syntax highlighting
-   or labeling if you want.
-
-## Notes on storage
-
-Progress and streaks are saved to `localStorage` per-browser (see
-`src/lib/storage.js`). That means streaks don't sync across devices and
-there's no shared leaderboard yet. If you want either of those, the natural
-next step is swapping `storage.js` for calls to a small backend (or a
-service like Supabase/Firebase) instead of `localStorage`, since everything
-else in the app just calls `getStats()` / `saveStats()` / `getProgress()` /
-`saveProgress()` without knowing how they're implemented.
+To sync streaks across devices later, replace `storage.js` with a small
+backend (or a Discord bot that records `/daily` results). The UI only calls
+`getStats()` / `recordCompletion()` / `getProgress()` / `saveProgress()`.

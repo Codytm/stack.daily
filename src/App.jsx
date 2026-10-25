@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { getDailyPuzzle, normalize } from "./lib/puzzle.js";
-import { getProgress, saveProgress, getStats, saveStats } from "./lib/storage.js";
+import { getDailyPuzzle, localDateKey, normalize } from "./lib/puzzle.js";
+import { getProgress, saveProgress, getStats, recordCompletion } from "./lib/storage.js";
+import { liveStreak } from "./lib/streak.js";
 import Header from "./components/Header.jsx";
 import ProgressBar from "./components/ProgressBar.jsx";
 import QuestionCard from "./components/QuestionCard.jsx";
@@ -8,7 +9,10 @@ import ResultScreen from "./components/ResultScreen.jsx";
 
 export default function App() {
   const [puzzle] = useState(() => getDailyPuzzle());
-  const [stats, setStats] = useState(() => getStats());
+  const [stats, setStats] = useState(() => {
+    const loaded = getStats();
+    return { ...loaded, streak: liveStreak(loaded, localDateKey()) };
+  });
   const [stepIdx, setStepIdx] = useState(0);
   const [answers, setAnswers] = useState([]);
   const [finished, setFinished] = useState(false);
@@ -18,12 +22,13 @@ export default function App() {
   const [codeInput, setCodeInput] = useState("");
   const [codeError, setCodeError] = useState("");
 
-  // Resume today's puzzle if it was already completed.
   useEffect(() => {
     const saved = getProgress(puzzle.todayKey);
     if (saved) {
       setAnswers(saved.answers);
       setFinished(true);
+      const loaded = getStats();
+      setStats({ ...loaded, streak: liveStreak(loaded, puzzle.todayKey) });
     }
   }, [puzzle.todayKey]);
 
@@ -48,30 +53,16 @@ export default function App() {
   function finishPuzzle(finalAnswers) {
     const score = finalAnswers.filter((a) => a.correct).length;
     saveProgress(puzzle.todayKey, { answers: finalAnswers, score });
-
-    const yesterdayKey = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
-    let newStreak = 1;
-    if (stats.lastPlayedDate === puzzle.todayKey) {
-      newStreak = stats.streak;
-    } else if (stats.lastPlayedDate === yesterdayKey) {
-      newStreak = stats.streak + 1;
-    }
-    const newStats = {
-      streak: newStreak,
-      maxStreak: Math.max(newStreak, stats.maxStreak || 0),
-      lastPlayedDate: puzzle.todayKey,
-      totalPlayed: (stats.totalPlayed || 0) + 1,
-    };
-    saveStats(newStats);
-    setStats(newStats);
+    const next = recordCompletion(puzzle.todayKey, score, puzzle.questions.length);
+    setStats({ ...next, streak: liveStreak(next, puzzle.todayKey) });
     setFinished(true);
   }
 
   function next() {
     const answer =
       current.type === "mcq"
-        ? { correct: selected === current.correct, chosen: selected }
-        : { correct: normalize(codeInput) === normalize(current.output), chosen: codeInput };
+        ? { correct: selected === current.correct, chosen: selected, id: current.id }
+        : { correct: normalize(codeInput) === normalize(current.output), chosen: codeInput, id: current.id };
 
     const finalAnswers = [...answers, answer];
     setAnswers(finalAnswers);
@@ -87,9 +78,16 @@ export default function App() {
     }
   }
 
-  function buildShareText() {
+  function buildShareText(flavor = "plain") {
     const score = answers.filter((a) => a.correct).length;
     const squares = answers.map((a) => (a.correct ? "\u{1F7E9}" : "\u{1F7E5}")).join("");
+    if (flavor === "discord") {
+      return [
+        `**stack.daily() #${puzzle.puzzleNumber}**`,
+        `${squares}  **${score}/5**`,
+        `\u{1F525} streak **${stats.streak}** \u00B7 best **${stats.maxStreak}** \u00B7 ${stats.totalPlayed} played`,
+      ].join("\n");
+    }
     return `stack.daily() #${puzzle.puzzleNumber} — ${score}/5\n${squares}\nstreak: ${stats.streak} \u{1F525}`;
   }
 
@@ -119,7 +117,7 @@ export default function App() {
       )}
 
       {finished && (
-        <ResultScreen answers={answers} stats={stats} puzzleNumber={puzzle.puzzleNumber} buildShareText={buildShareText} />
+        <ResultScreen answers={answers} stats={stats} puzzle={puzzle} buildShareText={buildShareText} />
       )}
     </div>
   );

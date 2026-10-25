@@ -7,4 +7,11 @@ export const CODE_OUTPUTS = [
   { code: `print("Hello"[::-1])`, output: "olleH", exp: "Slicing with a step of -1 reverses the string." },
   { code: `try:\n    print(1/0)\nexcept ZeroDivisionError:\n    print("caught")\nfinally:\n    print("done")`, output: "caught\ndone", exp: "The division raises, the except block prints 'caught', then finally always runs." },
   { code: `print(sorted([3, 1, 2], reverse=True))`, output: "[3, 2, 1]", exp: "sorted() with reverse=True returns a new list in descending order." },
+  { code: `print([i for i in range(5) if i % 2 == 0])`, output: "[0, 2, 4]", exp: "The list comprehension keeps even numbers from 0 through 4." },
+  { code: `print(list(map(lambda x: x * 2, [1, 2, 3])))`, output: "[2, 4, 6]", exp: "map applies the lambda to each element; list() materializes the result." },
+  { code: `print("42".zfill(5))`, output: "00042", exp: "zfill pads the string with zeros on the left to the given width." },
+  { code: `d = {"a": 1}\nprint(d.get("b", 0))`, output: "0", exp: "dict.get returns the default when the key is missing instead of raising KeyError." },
+  { code: `print((lambda x: x + 1)(4))`, output: "5", exp: "The lambda is called immediately with 4, so it prints 5." },
+  { code: `print(2 ** 3 ** 2)`, output: "512", exp: "Exponentiation is right-associative: 2 ** (3 ** 2) = 2 ** 9 = 512, not (2 ** 3) ** 2." },
+  { code: `print("a,b,c".split(",")[1])`, output: "b", exp: "split produces ['a', 'b', 'c']; index 1 is the middle token." },
 ];
